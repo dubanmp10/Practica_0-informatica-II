@@ -1,0 +1,224 @@
+// Codigo número 1
+#include <iostream>
+
+using namespace std;
+
+int main() 
+{ // inicia el programa 
+    int i = 10; //declaración de una variable tipo entero
+    float a = 1000.0; // declaracion de variable tipo float
+    
+    while(i > 0) // condición del ciclo donde i debe ser mayor que cero
+    {
+        i /= 2; // i es dividido entre 2
+        a /= 10; // a es dividido entre 10
+    }
+    
+    cout<<"El valor final de la variable 'a' es: "<<a<<endl; // arroja como resultado 0.1 para la variable a
+    return 0; // retorna
+} // termina programa
+
+---------------------------------------------------------------------------------------------------------------------------------
+// Codigo número 2
+#include <iostream>
+
+using namespace std;
+
+int main() 
+{
+    int i = 1, j = 2; // declaración de variables tipo enteros i,j 
+    
+    if(i > j && j > i) // condicion Si ambos son verdaderos se obtiene verdadero(true)
+        i++; // incremento i 
+    if(i > j || j > i) // condición verdadero si alguno es verdadero, si i mayor que j OR j mayor que i.
+        j++;// incrementa j
+    if(i | j) // condición OR binaria
+        i++;// incrementa i
+    if(i & j) // condición AND binaria
+        j++; // incrementa j
+    
+    cout<<i * j<<endl; // multiplica el incremento de i que fue 2 y el incremento de j que fue 4 y retorna 8
+    return 0;
+} // finaliza el programa
+
+------------------------------------------------------------------------------------------------------------------------------
+
+// Codigo número 3
+#include <iostream>
+
+using namespace std;
+
+int main() 
+{
+    for(int i = 0; i < 4; ++i)
+    {
+        switch(i) // donde i es la variable a comparar
+        {
+            case 0: cout<<"0"; // bloque de intruccion cero, e imprime en pantalla cero
+            case 1: cout<<"1"; continue; // bloque de instruccion 1 , e imprime dos "1" por el incremento del contador
+            case 2: cout<<"2"; break; // bloque de instruccion dos , e imprime numero 2
+            default: cout<<"D"; break; // como no hay caso tres imprime asterisco "*" y lo sigue la "D"
+        }
+        
+        cout<<"*"; // no hay case 3, entonces imprime el asterisco, ademas como el ciclo ya no se cumple como lo plantea la condicion entonces imprime un asterisco.
+    }
+    return 0; // al final el resultado que retorna es: 0112*D*
+}
+-------------------------------------------------------------------------------------------------------------------------------------
+
+//Ejercicio 4
+
+#include <iostream> 
+using namespace std; 
+int mcd(int, int);
+
+int main() {
+    int a, b;
+    a = 15615;
+    b = 56568;
+
+    cout << "mcd(" << a << ", " << b << ")= " << mcd(a,b) << endl;
+    return 0;
+// Función que retorna el MCD entre dos números a y b
+int mcd(int a, int b) 
+{ 
+
+    if(a==0) return b;
+    if(b < a) return mcd(a,b);
+    return mcd(b, a % b);
+    if (a<b) return mcd(b,a);
+    return mcd(a, b%a);
+
+} 
+-------------------------------------------------------------------------------------------------------------------------
+//ejercicio 5
+
+//Programa para convertir de String a Int
+
+
+#include<iostream>
+#include<string>
+#include <math.h>
+
+using namespace std;
+
+int NumStringToInt(string numero)
+{
+
+    bool negative=false;        //variable para validar si el numero es negativo
+    double numInt=0;
+    int stringToInt;
+    if(numero[0]=='-')negative=true;
+
+    //conversion de String a Int
+    for(int i=0; i<numero.size();i++){
+        numInt+=(numero[(numero.size()-1)-i]-48)*pow(10,i);
+        if(negative==true && (i==(numero.size()-2))){
+            numInt*=-1;
+            break;
+        }
+    }
+
+
+    //Validación de que el numero no sobrepase la capacidad de un int
+    if(numInt < -2147483648 || numInt > 2147483647 ){
+        numInt=NULL;
+    }
+
+    stringToInt=numInt;
+    return stringToInt;
+}
+
+int main()
+{
+
+    string number1 = "45678945";
+    cout<<NumStringToInt(number1)<<endl;
+    string number2 = "-375907";
+    cout<<NumStringToInt(number2)<<endl;
+
+}
+
+
+//-----------------------------------------------------------------------------
+// ejercicio 6
+
+//Programa para cifrar
+
+#include <iostream>
+#include <array>
+#include <list>
+
+using namespace std;
+
+template<int n>
+void cifraData(int (&arr)[n], int rondas){
+    // creacion de un arreglo para guardar los datos en la ronda anterior
+    int i=0;
+    for (int elem : arr)i++;
+    int antArray[i];
+    i=0;
+    for(int elem:arr){
+        antArray[i]=elem;
+        i++;
+    }
+
+
+    //comienzo de cifrado
+    int a,b;            //variables auxiliares para pos izq y der
+    for(int j=1; j<= rondas; j++){
+        for(int k=0; k<i; k++){
+            //consideracion de la posicion izq y der en el arreglo
+            if(k==0){
+                a=i-1;
+                b=k+1;
+            }
+            else if(k==i-1){
+                a=k-1;
+                b=0;
+            }
+            else{
+                a=k-1;
+                b=k+1;
+            }
+            //consideracion de pos par e impar
+            if(k%2==0){
+                arr[k]=antArray[a]-antArray[b];
+            }
+            else{
+                arr[k]=antArray[a]+antArray[b];
+            }
+
+        }
+
+        //actualizacion del arreglo anterior
+        i=0;
+        for(int elem:arr){
+            antArray[i]=elem;
+            i++;
+        }
+    }
+
+
+}
+
+int main()
+{
+    int trama[6]={1,45,92,216,28,63}; //Trama de ejemplo
+
+    //impresion de la trama antes de cifrar
+    cout<<"\nTrama antes de cifrar:\n";
+    for(int elem: trama){
+        cout<<elem<<", ";
+    }
+    cout<<endl;
+    cifraData(trama, 3); // Llamado de ejemplo
+
+    //impresion de la trama despues de cifrar
+    cout<<"\nTrama despues de cifrar:\n";
+    for(int elem: trama){
+        cout<<elem<<", ";
+    }
+    cout<<endl;
+    return 0;
+}
